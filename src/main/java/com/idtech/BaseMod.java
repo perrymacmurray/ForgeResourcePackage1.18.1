@@ -48,9 +48,8 @@ public class BaseMod {
         // Register the processIMC method for modloading
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::processIMC);
 
-        //TODO latte add here
+        //Add listener for biome loading, for feature injection
         MinecraftForge.EVENT_BUS.addListener(OreGenerationMod::onBiomeLoadingEvent);
-        //TODO latte end
 
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
@@ -73,11 +72,8 @@ public class BaseMod {
 //        MinecraftForge.EVENT_BUS.addListener(EventMod::isHoldingEvent);
         //Adds the RegisterCommandEvent as an event and sets a listener for it during FMLCommonSetup
 
-        //TODO latte add here
-        event.enqueueWork(() -> {
-            OreGenerationMod.registerOreFeatures();
-        });
-        //TODO latte end
+        //Registration for ore features (as defined by methods in OreGenerationMod.java)
+        event.enqueueWork(OreGenerationMod::registerOreFeatures);
     }
 
     private void enqueueIMC(final InterModEnqueueEvent event) {

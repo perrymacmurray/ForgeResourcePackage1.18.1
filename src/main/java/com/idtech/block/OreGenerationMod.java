@@ -22,7 +22,7 @@ import java.util.ArrayList;
 public class OreGenerationMod
 {
     public static void registerOverworldOres() {
-        
+
     }
 
     public static void registerNetherOres() {
