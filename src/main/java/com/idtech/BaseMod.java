@@ -6,22 +6,16 @@ import com.idtech.entity.*;
 import com.idtech.item.*;
 
 //import com.idtech.world.WorldMod;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.Tier;
-import net.minecraft.world.item.Tiers;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.TierSortingRegistry;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.InterModComms;
 import net.minecraftforge.fml.common.Mod;
@@ -32,8 +26,6 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.Collectors;
 
 /**
@@ -56,6 +48,10 @@ public class BaseMod {
         // Register the processIMC method for modloading
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::processIMC);
 
+        //TODO latte add here
+        MinecraftForge.EVENT_BUS.addListener(OreGenerationMod::onBiomeLoadingEvent);
+        //TODO latte end
+
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
     }
@@ -76,6 +72,12 @@ public class BaseMod {
 //        MinecraftForge.EVENT_BUS.register(CustomEvent.class);
 //        MinecraftForge.EVENT_BUS.addListener(EventMod::isHoldingEvent);
         //Adds the RegisterCommandEvent as an event and sets a listener for it during FMLCommonSetup
+
+        //TODO latte add here
+        event.enqueueWork(() -> {
+            OreGenerationMod.registerOreFeatures();
+        });
+        //TODO latte end
     }
 
     private void enqueueIMC(final InterModEnqueueEvent event) {
