@@ -1,4 +1,4 @@
-package com.idtech.block;
+package com.idtech.world;
 
 import net.minecraft.data.BuiltinRegistries;
 import net.minecraft.data.worldgen.features.OreFeatures;
@@ -13,39 +13,28 @@ import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguration;
 import net.minecraft.world.level.levelgen.placement.*;
+import net.minecraft.world.level.levelgen.structure.templatesystem.TagMatchTest;
+import net.minecraftforge.common.Tags;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.fml.common.Mod;
 
 import java.util.ArrayList;
 
 @Mod.EventBusSubscriber
-public class OreGenerationMod
+public class OreGenerationUtil
 {
-    public static void registerOverworldOres() {
-
-    }
-
-    public static void registerNetherOres() {
-
-    }
-
-    // ---------------------------------------------------
-    // ---------------------------------------------------
-    // ===================================================
-    // DO NOT READ OR MODIFY THE CODE UNDER THIS LINE!!!!!
-    // ===================================================
-    // ---------------------------------------------------
-    // ---------------------------------------------------
-
     public static ArrayList<PlacedFeature> OVERWORLD_OREGEN = new ArrayList<>();
     public static ArrayList<PlacedFeature> NETHER_OREGEN = new ArrayList<>();
+    public static ArrayList<PlacedFeature> END_OREGEN = new ArrayList<>();
 
     public static void onBiomeLoadingEvent(BiomeLoadingEvent event) {
         if (event.getCategory() == Biome.BiomeCategory.NETHER) {
             for (PlacedFeature f : NETHER_OREGEN)
                 event.getGeneration().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, f);
-
-        } else if (event.getCategory() != Biome.BiomeCategory.THEEND) {
+        } else if (event.getCategory() == Biome.BiomeCategory.THEEND) {
+            for (PlacedFeature f : END_OREGEN)
+                event.getGeneration().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, f);
+        } else {
             for (PlacedFeature f : OVERWORLD_OREGEN)
                 event.getGeneration().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, f);
         }
@@ -96,9 +85,12 @@ public class OreGenerationMod
                                                    HeightRangePlacement.uniform(VerticalAnchor.absolute(minHeight), VerticalAnchor.absolute(maxHeight))));
     }
 
-    public static void registerOreFeatures()
-    {
-        registerOverworldOres();
-        registerNetherOres();
+    public static void addToEnd(Block block, String blockName, int minHeight, int maxHeight, int veinSize, int numTimesPerChunk) {
+        END_OREGEN.add(registerPlacedFeature(blockName, Feature.ORE.configured(new OreConfiguration(new TagMatchTest(Tags.Blocks.END_STONES),
+                                                                                                       block.defaultBlockState(), veinSize)),
+                                                CountPlacement.of(numTimesPerChunk),
+                                                InSquarePlacement.spread(),
+                                                BiomeFilter.biome(),
+                                                HeightRangePlacement.uniform(VerticalAnchor.absolute(minHeight), VerticalAnchor.absolute(maxHeight))));
     }
 }

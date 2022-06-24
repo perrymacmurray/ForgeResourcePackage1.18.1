@@ -6,6 +6,8 @@ import com.idtech.entity.*;
 import com.idtech.item.*;
 
 //import com.idtech.world.WorldMod;
+import com.idtech.world.OreGenerationMod;
+import com.idtech.world.OreGenerationUtil;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.enchantment.Enchantment;
@@ -49,7 +51,7 @@ public class BaseMod {
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::processIMC);
 
         //Add listener for biome loading, for feature injection
-        MinecraftForge.EVENT_BUS.addListener(OreGenerationMod::onBiomeLoadingEvent);
+        MinecraftForge.EVENT_BUS.addListener(OreGenerationUtil::onBiomeLoadingEvent);
 
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
