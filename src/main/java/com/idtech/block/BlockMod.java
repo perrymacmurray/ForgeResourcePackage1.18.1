@@ -14,17 +14,19 @@ import net.minecraftforge.fml.common.Mod;
 @Mod.EventBusSubscriber
 public class BlockMod {
 
-    //Basic Block
+    //Basic Blocks
     public static final Block CASTLE_WALL = BlockUtils.createBasicBlock("castlewall", Material.STONE);
     public static final Item CASTLE_WALL_ITEM = BlockUtils.createBlockItem(CASTLE_WALL, CreativeModeTab.TAB_MISC);
+
+    public static final Block HOT_COALS = BlockUtils.createBasicBlock("hotcoals", Material.STONE);
+    public static final Item HOT_COALS_ITEM = BlockUtils.createBlockItem(HOT_COALS, CreativeModeTab.TAB_BUILDING_BLOCKS);
 
 
     @SubscribeEvent
     public static void registerBlockItems(RegistryEvent.Register<Item> event) {
 
         event.getRegistry().register(CASTLE_WALL_ITEM);
-
-
+        event.getRegistry().register(HOT_COALS_ITEM);
 
     }
 
@@ -32,7 +34,7 @@ public class BlockMod {
     public static void registerBlocks(RegistryEvent.Register<Block> event) {
 
         event.getRegistry().register(CASTLE_WALL);
-
+        event.getRegistry().register(HOT_COALS);
 
     }
 }
