@@ -23,9 +23,9 @@ import java.util.ArrayList;
 @Mod.EventBusSubscriber
 public class OreGenerationUtil
 {
-    public static ArrayList<PlacedFeature> OVERWORLD_OREGEN = new ArrayList<>();
-    public static ArrayList<PlacedFeature> NETHER_OREGEN = new ArrayList<>();
-    public static ArrayList<PlacedFeature> END_OREGEN = new ArrayList<>();
+    private static ArrayList<PlacedFeature> OVERWORLD_OREGEN = new ArrayList<>();
+    private static ArrayList<PlacedFeature> NETHER_OREGEN = new ArrayList<>();
+    private static ArrayList<PlacedFeature> END_OREGEN = new ArrayList<>();
 
     public static void onBiomeLoadingEvent(BiomeLoadingEvent event) {
         if (event.getCategory() == Biome.BiomeCategory.NETHER) {
